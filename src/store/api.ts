@@ -5,11 +5,7 @@ import { logout } from "@/features/auth/authSlice";
 
 /**
  * The backend's global exception filter (see AllExceptionsFilter) always
- * returns this shape on error, e.g.:
- *   { statusCode: 404, message: "Student with id ... was not found.",
- *     error: "Not Found", path: "...", timestamp: "..." }
- * `message` is a string for most errors, or string[] for a validation
- * error listing every failed field at once.
+ * returns this shape on error
  */
 export interface ApiErrorBody {
   statusCode: number;
@@ -30,12 +26,6 @@ const rawBaseQuery = fetchBaseQuery({
   },
 });
 
-/**
- * Wraps the base query so an expired/invalid token (a 401 from any
- * endpoint other than login itself) clears the session — the route
- * guard then sends the user back to /login instead of leaving them on
- * a page that will just keep failing.
- */
 const baseQueryWithAuthHandling: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (
   args,
   queryApi,
@@ -49,13 +39,6 @@ const baseQueryWithAuthHandling: BaseQueryFn<string | FetchArgs, unknown, FetchB
   return result;
 };
 
-/**
- * Single RTK Query API instance for the whole app. Feature modules call
- * `api.injectEndpoints(...)` (see features/students/studentsApi.ts)
- * instead of creating their own `createApi` — this keeps one shared
- * cache, one shared middleware, and one place to change the base URL
- * or add auth headers later.
- */
 export const api = createApi({
   reducerPath: "api",
   baseQuery: baseQueryWithAuthHandling,

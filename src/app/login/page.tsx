@@ -4,7 +4,8 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GraduationCap } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
+import { EduviaMark } from "@/components/icons/eduvia-mark";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,7 @@ export default function LoginPage() {
   const dispatch = useAppDispatch();
   const [login, { isLoading }] = useLoginMutation();
   const [formError, setFormError] = React.useState<string | null>(null);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const {
     register,
@@ -46,7 +48,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-sm">
         <CardHeader className="items-center text-center">
           <span className="mb-1 flex h-10 w-10 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <GraduationCap className="h-5 w-5" aria-hidden="true" />
+            <EduviaMark className="h-5 w-5" />
           </span>
           <CardTitle>Sign in to Eduvia</CardTitle>
           <CardDescription>Enter your admin credentials to manage students.</CardDescription>
@@ -65,14 +67,30 @@ export default function LoginPage() {
             </FormField>
 
             <FormField id="password" label="Password" required error={errors.password?.message}>
-              <Input
-                id="password"
-                type="password"
-                autoComplete="current-password"
-                invalid={!!errors.password}
-                aria-describedby={errors.password ? "password-error" : undefined}
-                {...register("password")}
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  invalid={!!errors.password}
+                  aria-describedby={errors.password ? "password-error" : undefined}
+                  className="pr-9"
+                  {...register("password")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute inset-y-0 right-0 flex w-9 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" aria-hidden="true" />
+                  ) : (
+                    <Eye className="h-4 w-4" aria-hidden="true" />
+                  )}
+                </button>
+              </div>
             </FormField>
 
             {formError && (
