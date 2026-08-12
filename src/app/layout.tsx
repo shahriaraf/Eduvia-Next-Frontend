@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: "Manage students — view, search, filter, add, edit, and remove student records.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"

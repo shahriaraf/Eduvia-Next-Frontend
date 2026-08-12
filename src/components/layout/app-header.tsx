@@ -12,7 +12,7 @@ export function AppHeader() {
             <EduviaMark className="h-4.5 w-4.5" />
           </span>
           <span className="text-sm sm:text-base">
-            Eduvia <span className="text-muted-foreground font-normal">· Student Management</span>
+            Eduvia
           </span>
         </Link>
 
