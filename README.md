@@ -81,9 +81,7 @@ npm install
 
 ## 5. Environment Variables
 
-```bash
-cp .env.local.example .env.local
-```
+Create a `.env.local` file in the project root with:
 
 | Variable | Description |
 | --- | --- |
